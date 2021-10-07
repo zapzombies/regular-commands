@@ -1,4 +1,4 @@
-rootProject.name = "new-project"
+rootProject.name = "regular-commands"
 
 pluginManagement {
     repositories {
