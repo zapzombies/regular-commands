@@ -1,7 +1,7 @@
 import io.github.zap.build.gradle.convention.*
 
 plugins {
-    id("io.github.zap.build.gradle.convention.lib") version "1.1.0"
+    id("io.github.zap.build.gradle.convention.lib") version "1.1.0-SNAPSHOT-1633613339"
 }
 
 dependencies {
