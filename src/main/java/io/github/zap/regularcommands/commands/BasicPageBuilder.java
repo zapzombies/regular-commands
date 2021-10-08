@@ -19,7 +19,7 @@ public class BasicPageBuilder implements PageBuilder {
 
 
     public BasicPageBuilder(int entriesPerPage) {
-        Validate.isTrue(entriesPerPage > 0, "entriesPerPage must be > 0");
+        Validate.isTrue(entriesPerPage > 0, "entriesPerPage must be greater than 0");
         this.pages = new ArrayList<>();
         this.entriesPerPage = entriesPerPage;
     }
