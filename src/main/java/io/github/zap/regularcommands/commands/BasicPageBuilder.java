@@ -17,7 +17,6 @@ public class BasicPageBuilder implements PageBuilder {
     private final List<Component[]> pages;
     private int lastPageSize = 0;
 
-
     public BasicPageBuilder(int entriesPerPage) {
         Validate.isTrue(entriesPerPage > 0, "entriesPerPage must be greater than 0");
         this.pages = new ArrayList<>();
@@ -30,7 +29,7 @@ public class BasicPageBuilder implements PageBuilder {
 
     @Override
     public void addEntry(@NotNull CommandForm<?> form) {
-        Component[] lastPageArray = pages.get(pages.size() - 1);
+        Component[] lastPageArray = pages.size() > 0 ? pages.get(pages.size() - 1) : new Component[entriesPerPage];
         if(lastPageSize >= lastPageArray.length) {
             pages.add(lastPageArray = new Component[entriesPerPage]);
             lastPageSize = 0;
