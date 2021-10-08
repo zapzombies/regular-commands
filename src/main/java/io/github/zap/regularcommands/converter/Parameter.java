@@ -226,8 +226,8 @@ public class Parameter {
     }
 
     /**
-     * Creates a new standard parameter.
-     * @param regex The regex used to match this parameter
+     * Creates a new simple parameter.
+     * @param match The regex used to match this parameter
      * @param usage The usage of this parameter, which should explain what the parameter does in a few words. Should be
      *              formatted something like this:
      *
@@ -238,8 +238,8 @@ public class Parameter {
      *              Parameter usages are delimited by spaces. Include brackets or quotation marks to avoid confusing
      *              users.
      */
-    public Parameter(String regex, Component usage) {
-        this(regex, usage, null, null, null, ParameterType.STANDARD);
+    public Parameter(String match, Component usage) {
+        this(match, usage, null, null, null, ParameterType.SIMPLE);
     }
 
     /**
