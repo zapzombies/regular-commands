@@ -253,14 +253,6 @@ public class Parameter {
     }
 
     /**
-     * Creates a new simple parameter.
-     * @param match The exact string to match, which is case-sensitive
-     */
-    public Parameter(String match) {
-        this(match, null, null, null, null, ParameterType.SIMPLE);
-    }
-
-    /**
      * Gets the converter used to transform the argument string.
      * @return This parameter's associated converter
      */
