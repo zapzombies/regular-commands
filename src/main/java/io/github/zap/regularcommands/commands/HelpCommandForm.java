@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class HelpCommandForm extends CommandForm<Component> {
     private static final Parameter[] parameters = new Parameter[] {
-            new Parameter("help"),
+            new Parameter("help", Component.translatable(DefaultKeys.COMMAND_HELP_PARAM_1_USAGE.key())),
             new Parameter("^[1-9]\\d*$", Converters.INTEGER_CONVERTER)
     };
 
