@@ -193,8 +193,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                 }
             }
             else { //no matching forms
-                commandSender.sendMessage(formErrFormat.apply(Component.translatable(DefaultKeys.ERROR_NO_FORMS.key())
-                        .color(TextColor.color(0xFF, 0x2A, 0x0))));
+                commandSender.sendMessage(formErrFormat.apply(Component.translatable(DefaultKeys.ERROR_NO_FORMS.key())));
             }
         }
         else {
