@@ -7,6 +7,7 @@ import io.github.zap.regularcommands.validator.CommandValidator;
 import io.github.zap.regularcommands.validator.ValidationResult;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.TranslationRegistry;
 import org.apache.commons.lang.StringUtils;
@@ -16,16 +17,25 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 /**
  * This class keeps track of all registered commands and includes some utility functions.
  */
 public class CommandManager implements CommandExecutor, TabCompleter {
+    public enum ErrorType {
+        CONVERSION,
+        PERMISSIONS,
+        FORMS
+    }
+
     private static final Key TRANSLATION_REGISTRY_KEY
             = Key.key("io.github.zap", "regularcommands.translation.registry");
 
     private static final Locale DEFAULT_LOCALE = Locale.US;
+    private static final Function<Component, Component> DEFAULT_ERROR_FORMAT =
+            (component -> component.color(TextColor.color(0xFF, 0x2A, 0x0)));
 
     private class SimpleCommand extends RegularCommand {
         private SimpleCommand(String name) {
@@ -37,6 +47,10 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     private final TranslationRegistry translationRegistry;
     private final Logger logger;
     private final Map<String, RegularCommand> commands;
+
+    private Function<Component, Component> conversionErrFormat = DEFAULT_ERROR_FORMAT;
+    private Function<Component, Component> permissionsErrFormat = DEFAULT_ERROR_FORMAT;
+    private Function<Component, Component> formErrFormat = DEFAULT_ERROR_FORMAT;
 
     private final StringBuilder BUFFER = new StringBuilder(); //used for internal string parsing
 
@@ -51,6 +65,17 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         translator.addSource(translationRegistry);
         logger = plugin.getLogger();
         commands = new HashMap<>();
+    }
+
+    public void setDefaultFormat(@NotNull ErrorType type, @NotNull Function<Component, Component> function) {
+        Objects.requireNonNull(type, "type cannot be null");
+        Objects.requireNonNull(function, "function cannot be null");
+
+        switch (type) {
+            case FORMS -> formErrFormat = function;
+            case CONVERSION -> conversionErrFormat = function;
+            case PERMISSIONS -> permissionsErrFormat = function;
+        }
     }
 
     /**
@@ -158,16 +183,18 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                             }
                         }
                         else { //conversion error
-                            commandSender.sendMessage(conversionResult.getErrorMessage());
+                            commandSender.sendMessage(conversionErrFormat.apply(conversionResult.getErrorMessage()));
                         }
                     }
                     else { //sender does not have the required permissions
-                        commandSender.sendMessage(Component.translatable(DefaultKeys.ERROR_NO_PERMISSION.key()));
+                        commandSender.sendMessage(permissionsErrFormat.apply(
+                                Component.translatable(DefaultKeys.ERROR_NO_PERMISSION.key())));
                     }
                 }
             }
             else { //no matching forms
-                commandSender.sendMessage(Component.translatable(DefaultKeys.ERROR_NO_FORMS.key()));
+                commandSender.sendMessage(formErrFormat.apply(Component.translatable(DefaultKeys.ERROR_NO_FORMS.key())
+                        .color(TextColor.color(0xFF, 0x2A, 0x0))));
             }
         }
         else {

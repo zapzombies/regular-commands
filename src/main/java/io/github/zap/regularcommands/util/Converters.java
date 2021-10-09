@@ -4,6 +4,7 @@ import io.github.zap.regularcommands.commands.DefaultKeys;
 import io.github.zap.regularcommands.converter.ArgumentConverter;
 import io.github.zap.regularcommands.converter.ConversionResult;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 
 import java.lang.reflect.Array;
