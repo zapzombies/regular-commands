@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class HelpCommandForm extends CommandForm<Component> {
     private static final Parameter[] parameters = new Parameter[] {
-            new Parameter("help", Component.translatable(DefaultKeys.COMMAND_HELP_PARAM_1_USAGE.key())),
-            new Parameter("^[1-9]\\d*$", Converters.INTEGER_CONVERTER)
+            new Parameter("help", Component.translatable(DefaultKeys.COMMAND_HELP_PARAM_1_USAGE.key()), true),
+            new Parameter("^[1-9]\\d*$", Converters.INTEGER_CONVERTER, false)
     };
 
     private static final CommandValidator<Component, ?> validator = new CommandValidator<>(

@@ -218,16 +218,16 @@ public class Parameter {
      *
      *              Parameter usages are delimited by spaces. Include brackets or quotation marks to avoid confusing
      *              users.
-     * @param isVararg Whether or not the parameter is variable-argument (if it can match any number of user arguments)
+     * @param isSimple Whether or not the parameter is simple
      */
-    public Parameter(String regex, Component usage, boolean isVararg) {
-        this(regex, usage, null, null, null, isVararg ?
-                ParameterType.VARARG : ParameterType.STANDARD);
+    public Parameter(String regex, Component usage, boolean isSimple) {
+        this(regex, usage, null, null, null, isSimple ? ParameterType.SIMPLE :
+                ParameterType.STANDARD);
     }
 
     /**
-     * Creates a new simple parameter.
-     * @param match The regex used to match this parameter
+     * Creates a new vararg or standard parameter.
+     * @param match The string used to match this parameter
      * @param usage The usage of this parameter, which should explain what the parameter does in a few words. Should be
      *              formatted something like this:
      *
@@ -248,8 +248,9 @@ public class Parameter {
      * @param match The exact string to match, which is case-sensitive
      * @param converter The converter used to convert this argument
      */
-    public Parameter(String match, ArgumentConverter<?> converter) {
-        this(match, null, null, converter, null, ParameterType.SIMPLE);
+    public Parameter(String match, ArgumentConverter<?> converter, boolean isSimple) {
+        this(match, null, null, converter, null, isSimple ? ParameterType.SIMPLE :
+                ParameterType.STANDARD);
     }
 
     /**
