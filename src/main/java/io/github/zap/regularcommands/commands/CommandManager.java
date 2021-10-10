@@ -167,7 +167,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         RegularCommand regularCommand = getCommand(command.getName());
 
         if(regularCommand != null) {
-            List<MatchResult> matches = regularCommand.getMatches(parse(args), commandSender); //get all matches
+            List<MatchResult> matches = regularCommand.getMatches(parse(args)); //get all matches
 
             if(matches.size() > 0) {
                 for(MatchResult match : matches) { //loop all matches
