@@ -155,20 +155,19 @@ public abstract class CommandForm<T> implements Iterable<Parameter> {
     public @NotNull MatchResult matches(String[] args) {
         if(args.length == 0) { //optimization for zero-length parameters
             boolean matches = parameters.length == 0;
-            return new MatchResult(this, true, matches, matches ? ConversionResult.of(true,
+            return new MatchResult(this, matches, matches ? ConversionResult.of(true,
                     ArrayUtils.EMPTY_OBJECT_ARRAY, null) : null);
         }
 
         //optimization, don't bother testing if we are above or below the required length for this form
-        if(args.length < requiredLength || args.length > parameters.length && !vararg) {
-            return new MatchResult(this, true, false, null);
+        if(args.length < requiredLength || (args.length > parameters.length && !vararg)) {
+            return new MatchResult(this, false, null);
         }
 
         int iters = Math.max(args.length, parameters.length);
         Object[] result = new Object[iters];
 
-        for(int i = 0; i < iters; i++)
-        {
+        for(int i = 0; i < iters; i++) {
             Parameter parameter = parameters[Math.min(i, parameters.length - 1)];
             Parameter.ParameterType parameterType = parameter.getType();
             String input;
@@ -186,7 +185,7 @@ public abstract class CommandForm<T> implements Iterable<Parameter> {
             }
 
             if(matchFails(input, parameter)) {
-                return new MatchResult(this, true, false, null);
+                return new MatchResult(this, false, null);
             }
 
             ArgumentConverter<?> converter = parameter.getConverter();
@@ -203,12 +202,12 @@ public abstract class CommandForm<T> implements Iterable<Parameter> {
                 result[i] = conversionResult.getConversion();
             }
             else { //failed conversion
-                return new MatchResult(this, true, true, ConversionResult.of(false,
+                return new MatchResult(this, true, ConversionResult.of(false,
                         null, conversionResult.getErrorMessage()));
             }
         }
 
-        return new MatchResult(this, true,true, ConversionResult.of(true, result, null));
+        return new MatchResult(this,true, ConversionResult.of(true, result, null));
     }
 
     /**
