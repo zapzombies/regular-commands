@@ -62,22 +62,15 @@ public class RegularCommand {
     /**
      * Returns a list of all CommandForm objects that match the provided argument array.
      * @param args The argument array used to check for matches
-     * @param sender The CommandSender that is attempting to run this command
      * @return All matching command forms, or an empty list if none exist
      */
-    public @NotNull List<MatchResult> getMatches(@NotNull String[] args, @NotNull CommandSender sender) {
+    public @NotNull List<MatchResult> getMatches(@NotNull String[] args) {
         List<MatchResult> matches = new ArrayList<>();
         for(CommandForm<?> form : forms) {
-            //check permissions before running relatively expensive matching algorithm
-            if(form.getPermissions().validateFor(sender)) {
-                MatchResult matchResult = form.matches(args);
+            MatchResult matchResult = form.matches(args);
 
-                if(matchResult.matches()) {
-                    matches.add(matchResult);
-                }
-            }
-            else {
-                matches.add(new MatchResult(form, false, false, null));
+            if(matchResult.matches()) {
+                matches.add(matchResult);
             }
         }
 
