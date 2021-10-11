@@ -171,7 +171,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
 
             if(matches.size() > 0) {
                 for(MatchResult match : matches) { //loop all matches
-                    if(match.hasPermission()) { //check permissions match first
+                    if(match.getForm().getPermissions().validateFor(commandSender)) { //check permissions match first
                         ConversionResult<Object[]> conversionResult = match.getConversionResult();
 
                         if(conversionResult.isValid()) { //conversion was a success
@@ -218,12 +218,12 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             else {
                 sender.sendMessage(result.getErrorMessage());
             }
+
+            return null;
         }
         else {
             return form.execute(context, args, null);
         }
-
-        return null;
     }
 
     @Override

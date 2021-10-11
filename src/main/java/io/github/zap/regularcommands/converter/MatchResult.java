@@ -7,20 +7,17 @@ import io.github.zap.regularcommands.commands.CommandForm;
  */
 public class MatchResult {
     private final CommandForm<?> form;
-    private final boolean hasPermission;
     private final boolean matches;
     private final ConversionResult<Object[]> conversionResult;
 
     /**
      * Creates a new MatchResult object from the specified data
      * @param form The associated CommandForm
-     * @param hasPermission Whether or not the user has permission to execute this form
      * @param matches Whether or not the form's signature matches the input
      * @param conversionResult The result of converting every input argument
      */
-    public MatchResult(CommandForm<?> form, boolean hasPermission, boolean matches, ConversionResult<Object[]> conversionResult) {
+    public MatchResult(CommandForm<?> form, boolean matches, ConversionResult<Object[]> conversionResult) {
         this.form = form;
-        this.hasPermission = hasPermission;
         this.matches = matches;
         this.conversionResult = conversionResult;
     }
@@ -48,13 +45,5 @@ public class MatchResult {
      */
     public ConversionResult<Object[]> getConversionResult() {
         return conversionResult;
-    }
-
-    /**
-     * Whether or not the invoking player actually has permission to execute this form.
-     * @return True if they have permission, false otherwise
-     */
-    public boolean hasPermission() {
-        return hasPermission;
     }
 }
